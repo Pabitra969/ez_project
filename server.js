@@ -8,19 +8,47 @@ app.use(cors());
 app.use(fileUpload());
 
 app.post('/upload', async (req, res) => {
-  if (!req.files || !req.files.pdf) {
-    return res.status(400).json({ error: 'No PDF uploaded' });
+  console.log('Upload request received');
+  console.log('Files:', req.files);
+  
+  if (!req.files || !req.files.file) {
+    console.log('No file found in request');
+    return res.status(400).json({ error: 'No file uploaded' });
   }
+
+  const uploadedFile = req.files.file;
+  const fileExtension = uploadedFile.name.split('.').pop().toLowerCase();
+  console.log('File extension:', fileExtension);
+  console.log('File name:', uploadedFile.name);
+
   try {
-    const pdfBuffer = req.files.pdf.data;
-    const data = await pdfParse(pdfBuffer);
+    let text = '';
+    let preview = '';
+
+    if (fileExtension === 'pdf') {
+      // Handle PDF files
+      const data = await pdfParse(uploadedFile.data);
+      text = data.text;
+    } else if (fileExtension === 'txt') {
+      // Handle TXT files
+      text = uploadedFile.data.toString('utf8');
+    } else {
+      return res.status(400).json({ error: 'Unsupported file type. Please upload a PDF or TXT file.' });
+    }
+
     // Get the first 100 words as a preview
-    const words = data.text.split(/\s+/).filter(Boolean).slice(0, 100);
-    const preview = words.join(' ') + (words.length === 100 ? '...' : '');
+    const words = text.split(/\s+/).filter(Boolean).slice(0, 100);
+    preview = words.join(' ') + (words.length === 100 ? '...' : '');
+    
+    console.log('Text length:', text.length);
+    console.log('Preview length:', preview.length);
+    console.log('Preview:', preview.substring(0, 100));
+
     // Return both preview and full text
-    res.json({ preview, text: data.text });
+    res.json({ preview, text });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to extract PDF text' });
+    console.error('Error processing file:', err);
+    res.status(500).json({ error: 'Failed to extract text from file' });
   }
 });
 
