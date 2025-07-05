@@ -17,7 +17,8 @@ app.post('/upload', async (req, res) => {
     // Get the first 100 words as a preview
     const words = data.text.split(/\s+/).filter(Boolean).slice(0, 100);
     const preview = words.join(' ') + (words.length === 100 ? '...' : '');
-    res.json({ preview });
+    // Return both preview and full text
+    res.json({ preview, text: data.text });
   } catch (err) {
     res.status(500).json({ error: 'Failed to extract PDF text' });
   }
