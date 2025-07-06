@@ -41,7 +41,7 @@ npm install
     ```
 
 ### 5. **Start the Backend**
-# From the project root
+## From the project root
 ```bash
 node server.js
 ```
