@@ -78,7 +78,10 @@ Follow these steps to set up your custom AI model for use with this project:
      ```
      FROM <your-full-path-to-the-gguf-model-file>/unsloth.Q4_K_M.gguf
      ```
-     (Use the actual path to your downloaded `.gguf` file.)
+     > **Note:**If your path contains `/unsloth.Q4_K_M.gguf` at the end the Replane it with:
+     ```
+     FROM <your-full-path-to-the-gguf-model-file>
+     ```
 
 4. **Download and Install Ollama**
    - Download Ollama for your OS: [https://ollama.com/download](https://ollama.com/download)
