@@ -24,49 +24,25 @@ npm install
 ```
 
 ### 4. **Set Up MongoDB**
-- Make sure MongoDB is running locally (default: `mongodb://127.0.0.1:27017/ezpdf`).
-- Or use a MongoDB Atlas connection string and update the connection in `server.js` if needed.
+- **Option 1:** Install MongoDB locally ([Download here](https://www.mongodb.com/try/download/community)), start the service, and the backend will connect to `mongodb://127.0.0.1:27017/ezpdf`.
+- **Option 2:** Use [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) for a free cloud database. Update the connection string in `server.js` to your Atlas URI.
+- **Option 3 (macOS/Linux):** Install the MongoDB Atlas CLI and set up Atlas from the command line:
+  ```bash
+  brew install mongodb-atlas
+  atlas setup
+  ```
+  _Note: Homebrew is required. For Windows, see below._
+
+- **Option 3 (Windows):**  
+  Download and install the MongoDB Atlas CLI from the [official releases page](https://www.mongodb.com/try/download/atlas-cli)  
+  **OR** (if you have Chocolatey):
+  ```powershell
+  choco install mongodb-atlas-cli
+  atlas setup
+  ```
 
 ### 5. **Start the Backend**
-```bash
-# From the project root
-node server.js
 ```
-- The backend will run on [http://localhost:3001](http://localhost:3001).
-
-### 6. **Start the Frontend**
-```bash
-cd frontend
-npm run dev
-```
-- The frontend will run on [http://localhost:5173](http://localhost:5173).
-
-### 7. **(Optional) Model API**
-- If your app uses a local model API (like Ollama or similar), make sure it’s running on the expected port (e.g., `http://localhost:11434`).
-
----
-
-## 🛠️ Troubleshooting
-
-- **MongoDB connection errors:** Make sure MongoDB is running and accessible.
-- **Port conflicts:** Change the port in `server.js` or your frontend config if needed.
-- **Model API errors:** Ensure your model server is running and accessible.
-
----
-
-## 📄 Project Structure
-
-```
-your-repo-name/
-├── server.js           # Node.js/Express backend
-├── package.json        # Backend dependencies
-├── frontend/           # React frontend (Vite)
-│   ├── package.json
-│   └── ...
 ```
 
----
-
-## 📬 Contact
-
-For questions or issues, please open an issue on GitHub or contact the maintainer. 
+Let me know if you want this added to your README!
