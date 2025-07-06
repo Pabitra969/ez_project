@@ -27,9 +27,15 @@ db.once('open', () => {
 // Document schema
 const documentSchema = new mongoose.Schema({
   filename: String,
-  fullText: String,
   preview: String,
+  fullText: String,
   uploadDate: { type: Date, default: Date.now },
+  phase: {
+    type: String,
+    enum: ['uploaded', 'summary_generated', 'chat_started', 'challenge_started'],
+    default: 'uploaded'
+  },
+  summary: String // This stores the summary
 });
 const Document = mongoose.model('Document', documentSchema);
 
@@ -118,6 +124,7 @@ app.post('/upload', async (req, res) => {
       filename: uploadedFile.name,
       fullText: text,
       preview,
+      phase: 'uploaded' // Set initial phase to 'uploaded'
     });
     await doc.save();
     console.log('Document saved with ID:', doc._id);
@@ -142,9 +149,10 @@ app.post('/upload', async (req, res) => {
 // List all documents
 app.get('/documents', async (req, res) => {
   try {
-    const docs = await Document.find({}, 'filename preview uploadDate');
+    const docs = await Document.find({}, 'filename preview uploadDate phase summary');
     res.json(docs);
   } catch (err) {
+    console.error('Error fetching documents:', err);
     res.status(500).json({ error: 'Failed to fetch documents' });
   }
 });
@@ -231,6 +239,38 @@ app.delete('/documents/:id', async (req, res) => {
   } catch (err) {
     console.error('Error deleting document:', err);
     res.status(500).json({ error: 'Failed to delete document' });
+  }
+});
+
+// Update document phase
+app.put('/documents/:id/phase', async (req, res) => {
+  try {
+    const documentId = req.params.id;
+    const { phase, summary } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(documentId)) {
+      return res.status(400).json({ error: 'Invalid document ID' });
+    }
+
+    const updateData = { phase };
+    if (typeof summary === 'string') {
+      updateData.summary = summary;
+    }
+
+    const updatedDoc = await Document.findByIdAndUpdate(
+      documentId,
+      updateData,
+      { new: true }
+    );
+
+    if (!updatedDoc) {
+      return res.status(404).json({ error: 'Document not found' });
+    }
+
+    res.json(updatedDoc);
+  } catch (err) {
+    console.error('Error updating document phase:', err);
+    res.status(500).json({ error: 'Failed to update document phase' });
   }
 });
 

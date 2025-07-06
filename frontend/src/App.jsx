@@ -28,12 +28,36 @@ function App() {
   const [chatId, setChatId] = useState(null);
   const [documents, setDocuments] = useState([]);
 
-  // Static chat list for now
-  const chats = [
-    'Chat name 1',
-    'Chat name 2',
-    'Chat name 3',
-  ];
+  // Per-document state management
+  const [chatStates, setChatStates] = useState({});
+
+  // Helper function to get current document state
+  const getCurrentDocumentState = () => {
+    if (!documentId) return null;
+    return chatStates[documentId] || {
+      aiSummary: '',
+      summaryGenerated: false,
+      mode: '',
+      chatStarted: false,
+      showChallenge: false,
+      challengeQuestions: [],
+      challengeLoading: false,
+      summaryStreaming: false,
+      messages: []
+    };
+  };
+
+  // Helper function to update current document state
+  const updateCurrentDocumentState = (updates) => {
+    if (!documentId) return;
+    setChatStates(prev => ({
+      ...prev,
+      [documentId]: {
+        ...getCurrentDocumentState(),
+        ...updates
+      }
+    }));
+  };
 
   // Helper function to get full document text from database
   const getFullDocumentText = async (docId) => {
@@ -78,6 +102,15 @@ function App() {
     setDocumentId(null);
     setChatId(null);
     setMessages([]);
+    // Clear global state
+    setAiSummary('');
+    setSummaryGenerated(false);
+    setChatStarted(false);
+    setMode('');
+    setShowChallenge(false);
+    setChallengeQuestions([]);
+    setChallengeLoading(false);
+    setSummaryStreaming(false);
     const formData = new FormData();
     formData.append('file', file);
 
@@ -95,6 +128,21 @@ function App() {
       console.log('Full File Text:', data.text || '');
       setDocumentId(data.documentId || null);
 
+      // Initialize state for new document
+      if (data.documentId) {
+        updateCurrentDocumentState({
+          aiSummary: '',
+          summaryGenerated: false,
+          mode: '',
+          chatStarted: false,
+          showChallenge: false,
+          challengeQuestions: [],
+          challengeLoading: false,
+          summaryStreaming: false,
+          messages: []
+        });
+      }
+
       // Refresh the documents list to show the new document in sidebar
       const docsRes = await fetch('http://localhost:3001/documents');
       const docs = await docsRes.json();
@@ -110,10 +158,13 @@ function App() {
           // Load chat messages
           if (chatData.messages && chatData.messages.length > 0) {
             setMessages(chatData.messages);
+            updateCurrentDocumentState({ messages: chatData.messages });
           } else {
-            setMessages([
+            const defaultMessages = [
               { sender: 'ai', text: 'Hello! How can I help you with your document?' },
-            ]);
+            ];
+            setMessages(defaultMessages);
+            updateCurrentDocumentState({ messages: defaultMessages });
           }
         } else {
           // No chat exists, create one
@@ -130,17 +181,21 @@ function App() {
             const newChat = await createRes.json();
             console.log('Successfully created chat for upload:', newChat);
             setChatId(newChat._id);
-            setMessages([
+            const defaultMessages = [
               { sender: 'ai', text: 'Hello! How can I help you with your document?' },
-            ]);
+            ];
+            setMessages(defaultMessages);
+            updateCurrentDocumentState({ messages: defaultMessages });
           } else {
             console.error('Failed to create chat for upload. Status:', createRes.status);
             const errorData = await createRes.json().catch(() => ({ error: 'Unknown error' }));
             console.error('Upload chat creation error:', errorData);
             // Fallback to default messages without chat persistence
-            setMessages([
+            const defaultMessages = [
               { sender: 'ai', text: 'Hello! How can I help you with your document?' },
-            ]);
+            ];
+            setMessages(defaultMessages);
+            updateCurrentDocumentState({ messages: defaultMessages });
           }
         }
       }
@@ -176,6 +231,7 @@ function App() {
     // Add a placeholder for the streaming AI answer
     newMessages.push({ sender: 'ai', text: "" });
     setMessages(newMessages);
+    updateCurrentDocumentState({ messages: newMessages });
     setMessage('');
 
     // Add user message to backend chat
@@ -201,6 +257,9 @@ function App() {
           updated[updated.length - 1] = { sender: 'ai', text: aiText };
           return updated;
         });
+        // Update the document state with the current messages
+        const currentMessages = [...messages, { sender: 'user', text: userMessage }, { sender: 'ai', text: aiText }];
+        updateCurrentDocumentState({ messages: currentMessages });
       },
       async () => {
         // Add AI message to backend chat
@@ -316,6 +375,7 @@ function App() {
           qaText += chunk;
         },
         () => {
+          console.log('Raw challenge model response:', qaText);
           // Parse the questions and answers from the response
           const qaPairs = [];
           const regex = /\d+\. Q:([\s\S]*?)A:([\s\S]*?)(?=\d+\. Q:|$)/g;
@@ -331,6 +391,8 @@ function App() {
             });
           }
           setChallengeQuestions(qaPairs.slice(0, 3));
+          updateCurrentDocumentState({ challengeQuestions: qaPairs.slice(0, 3) });
+          console.log('Setting challenge questions:', qaPairs.slice(0, 3));
           setChallengeLoading(false);
         },
         messages // Pass the current chat history
@@ -398,6 +460,16 @@ function App() {
     setShowChallenge(false);
     setChallengeQuestions([]);
     setAiSummary('');
+    setSummaryStreaming(false);
+    setChallengeLoading(false);
+    // Clear any saved state for the current document
+    if (documentId) {
+      setChatStates(prev => {
+        const newState = { ...prev };
+        delete newState[documentId];
+        return newState;
+      });
+    }
   };
 
   // Function to delete a document and its chat
@@ -463,64 +535,108 @@ function App() {
 
   // Add a function to load a document and its chat
   const handleSelectDocument = async (docId) => {
+    console.log('Switching to document:', docId);
     setLoading(true);
     setDocumentId(docId);
     setChatId(null);
     setPreview('');
     setPdfText('');
     setMessages([]);
+
+    // Clear global state first
+    setAiSummary('');
+    setSummaryGenerated(false);
+    setMode('');
+    setChatStarted(false);
+    setShowChallenge(false);
+    setChallengeQuestions([]);
+    setChallengeLoading(false);
+    setSummaryStreaming(false);
+    setMessages([]);
+
+    // Load saved state for this document
+    const savedState = chatStates[docId];
+    if (savedState) {
+      setAiSummary(savedState.aiSummary || '');
+      setSummaryGenerated(savedState.summaryGenerated || false);
+      setMode(savedState.mode || '');
+      setChatStarted(savedState.chatStarted || false);
+      setShowChallenge(savedState.showChallenge || false);
+      setChallengeQuestions(savedState.challengeQuestions || []);
+      setChallengeLoading(savedState.challengeLoading || false);
+      setSummaryStreaming(savedState.summaryStreaming || false);
+      setMessages(savedState.messages || []);
+    }
+
     try {
-      // Fetch document details
+      // Fetch full document details for fullText and summary
       const docRes = await fetch(`http://localhost:3001/documents/${docId}`);
       const doc = await docRes.json();
+
+      // Always fetch the latest documents list to get the latest summary
+      const docsRes = await fetch('http://localhost:3001/documents');
+      const docs = await docsRes.json();
+      setDocuments(docs);
+
       setPreview(doc.preview || 'No preview available.');
       setPdfText(doc.fullText || '');
-      
-      // Fetch or create chat for this document
-      const chatRes = await fetch(`http://localhost:3001/chats/${docId}`);
-      console.log('Chat response status:', chatRes.status);
-      
-      if (chatRes.ok) {
-        const chatData = await chatRes.json();
-        console.log('Loaded chat data:', chatData);
-        setChatId(chatData._id);
-        
-        if (chatData.messages && chatData.messages.length > 0) {
-          console.log('Loading existing messages:', chatData.messages.length, 'messages');
-          setMessages(chatData.messages);
-        } else {
-          console.log('No existing messages, setting default welcome message');
-          setMessages([
-            { sender: 'ai', text: 'Hello! How can I help you with your document?' },
-          ]);
+      setAiSummary(doc.summary || ''); // Always update summary from backend
+
+      // Set UI state based on phase
+      if (doc.phase === 'uploaded') {
+        setSummaryGenerated(false);
+        setSummaryStreaming(false);
+        setChatStarted(false);
+        setMode('');
+        setShowChallenge(false);
+      } else if (doc.phase === 'summary_generated') {
+        setSummaryGenerated(true);
+        setSummaryStreaming(false);
+        setChatStarted(false);
+        setMode('');
+        setShowChallenge(false);
+      } else if (doc.phase === 'chat_started') {
+        setSummaryGenerated(true);
+        setSummaryStreaming(false);
+        setChatStarted(true); // Don't enter chat mode until user clicks
+        setMode('askAnything');
+        setShowChallenge(false);
+
+        // Fetch the chat and set messages
+        try {
+          const chatRes = await fetch(`http://localhost:3001/chats/${docId}`);
+          if (chatRes.ok) {
+            const chatData = await chatRes.json();
+            if (chatData.messages && chatData.messages.length > 0) {
+              setMessages(chatData.messages);
+              setChatId(chatData._id);
+              updateCurrentDocumentState({ messages: chatData.messages });
+            } else {
+              // No existing messages, start with summary as first message
+              const welcomeMessages = [
+                { sender: 'ai', text: doc.summary || 'Here is a short summary of your document...' },
+                { sender: 'ai', text: 'Ask me any question you have.' }
+              ];
+              setMessages(welcomeMessages);
+              setChatId(chatData._id);
+              updateCurrentDocumentState({ messages: welcomeMessages });
+            }
+          }
+        } catch (err) {
+          // Fallback to default messages
+          const welcomeMessages = [
+            { sender: 'ai', text: doc.summary || 'Here is a short summary of your document...' },
+            { sender: 'ai', text: 'Ask me any question you have.' }
+          ];
+          setMessages(welcomeMessages);
+          updateCurrentDocumentState({ messages: welcomeMessages });
         }
-      } else {
-        console.log('No existing chat found, creating new one');
-        // No chat exists, create one
-        const createRes = await fetch('http://localhost:3001/chats', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ documentId: docId, mode: '' }),
-        });
-        
-        console.log('Chat creation response status:', createRes.status);
-        
-        if (createRes.ok) {
-          const newChat = await createRes.json();
-          console.log('Created new chat:', newChat);
-          setChatId(newChat._id);
-          setMessages([
-            { sender: 'ai', text: 'Hello! How can I help you with your document?' },
-          ]);
-        } else {
-          console.error('Failed to create chat. Status:', createRes.status);
-          const errorData = await createRes.json().catch(() => ({ error: 'Unknown error' }));
-          console.error('Chat creation error:', errorData);
-          // Fallback to default messages without chat persistence
-          setMessages([
-            { sender: 'ai', text: 'Hello! How can I help you with your document?' },
-          ]);
-        }
+      } else if (doc.phase === 'challenge_started') {
+        setSummaryGenerated(true);
+        setSummaryStreaming(false);
+        setChatStarted(false);
+        setMode('');
+        setShowChallenge(false);
       }
     } catch (err) {
       console.error('Error loading document:', err);
@@ -532,11 +648,38 @@ function App() {
     }
   };
 
+  // Utility function to update document phase in backend
+  async function updateDocumentPhase(documentId, phase, summary = null) {
+    if (!documentId) return;
+    try {
+      const body = { phase };
+      if (summary) {
+        body.summary = summary;
+      }
+      const res = await fetch(`http://localhost:3001/documents/${documentId}/phase`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Failed to update document phase. Status:', res.status, 'Error:', errorData);
+        throw new Error(`Failed to update document phase: ${res.statusText}`);
+      }
+      const updatedDoc = await res.json();
+      console.log('Document phase updated successfully:', updatedDoc);
+      return updatedDoc;
+    } catch (err) {
+      console.error('Failed to update document phase:', err);
+      throw err; // Re-throw to be caught by the caller
+    }
+  }
+
   return (
     // Root container: holds sidebar and main content
-    <div className="h-screen w-screen flex bg-[#343541] text-[#ececf1] overflow-hidden">
+    <div className="min-h-screen w-screen flex bg-[#343541] text-[#ececf1]">
       {/* Sidebar: chat navigation and new chat button (fixed, toggleable) */}
-      <aside className={`w-72 h-screen bg-[#202123] border-r border-[#343541] flex flex-col p-4 shadow-lg z-20 fixed left-0 top-0 overflow-y-auto transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <aside className={`w-72 min-h-screen bg-[#202123] border-r border-[#343541] flex flex-col p-4 shadow-lg z-20 fixed left-0 top-0 overflow-y-auto transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="flex items-center gap-2 mb-6">
           {/* New chat button */}
           <button 
@@ -591,26 +734,52 @@ function App() {
         </div>
       </aside>
       {/* Main content: PDF preview, chat area, and message input */}
-      <main className={`flex-1 h-screen flex flex-col items-center bg-[#343541] relative transition-all duration-300 ${sidebarOpen ? 'ml-72' : 'ml-0'}`}>
+      <main className={`flex-1 min-h-screen flex flex-col items-center bg-[#343541] relative transition-all duration-300 ${sidebarOpen ? 'ml-72' : 'ml-0'}`}>
         {/* Show summary and options when generated but chat not started */}
-        {summaryGenerated && !chatStarted && (
-          <div className="w-full max-w-3xl mt-8 overflow-y-auto max-h-[calc(100vh-100px)] scrollbar-none px-1" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+        {(getCurrentDocumentState()?.summaryGenerated || summaryGenerated) && !(getCurrentDocumentState()?.chatStarted || chatStarted) && (
+          <div className="w-full max-w-3xl mt-8 px-1">
             <div className="p-4 bg-[#444654] rounded-lg text-[#ececf1] text-start mb-10">
-              {aiSummary || "Generating summary please wait..."}
+              {getCurrentDocumentState()?.aiSummary || aiSummary || "Generating summary please wait..."}
+            </div>
+            
+            {/* Back to Preview button */}
+            <div className="flex justify-center mb-6">
+              <button
+                className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
+                onClick={async () => {
+                  setSummaryGenerated(false);
+                  setAiSummary('');
+                  setMode('');
+                  setChatStarted(false);
+                  setShowChallenge(false);
+                  setChallengeQuestions([]);
+                  updateCurrentDocumentState({
+                    summaryGenerated: false,
+                    aiSummary: '',
+                    mode: '',
+                    chatStarted: false,
+                    showChallenge: false,
+                    challengeQuestions: []
+                  });
+                  await updateDocumentPhase(documentId, 'uploaded');
+                }}
+              >
+                Back to Preview
+              </button>
             </div>
             
             {/* Challenge Questions Section */}
-            {showChallenge && mode === 'challenge' && (
+            {(getCurrentDocumentState()?.showChallenge || showChallenge) && (getCurrentDocumentState()?.mode === 'challenge' || mode === 'challenge') && (
               <div className="mb-6">
                 <h3 className="text-xl font-bold text-[#ececf1] mb-4 text-center">Challenge Questions</h3>
-                {challengeLoading ? (
+                {(getCurrentDocumentState()?.challengeLoading || challengeLoading) ? (
                   <div className="text-center text-[#ececf1]">
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600 mx-auto mb-2"></div>
                     Generating challenging questions...
                   </div>
-                ) : challengeQuestions.length > 0 ? (
-                  <div className="space-y-4">
-                    {challengeQuestions.map((question, index) => (
+                ) : (getCurrentDocumentState()?.challengeQuestions?.length > 0 || challengeQuestions.length > 0) ? (
+                                      <div className="space-y-4">
+                      {(getCurrentDocumentState()?.challengeQuestions || challengeQuestions).map((question, index) => (
                       <div key={index} className="p-4 bg-[#444654] rounded-lg border border-[#343541]">
                         <div className="flex items-start gap-3">
                           <span className="bg-purple-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold flex-shrink-0 mt-1">
@@ -657,10 +826,16 @@ function App() {
                     <div className="flex justify-center mt-6 gap-4">
                       <button
                         className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
-                        onClick={() => {
+                        onClick={async () => {
                           setShowChallenge(false);
                           setMode('');
                           setChallengeQuestions([]);
+                          updateCurrentDocumentState({
+                            showChallenge: false,
+                            mode: '',
+                            challengeQuestions: []
+                          });
+                          await updateDocumentPhase(documentId, 'summary_generated', aiSummary);
                         }}
                       >
                         Back to Options
@@ -685,78 +860,94 @@ function App() {
             )}
             
             {/* Ask me anything & Challenge me options, directly below summary */}
-            {preview && !showChallenge && (
+            {preview && !(getCurrentDocumentState()?.showChallenge || showChallenge) && (
               <div className="flex gap-4 justify-center mb-6 mt-4">
                 <button
-                  className={`px-4 py-2 rounded bg-blue-600 text-white transition ${summaryLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
-                  onClick={async () => {
-                    if (summaryLoading) return;
-                    setChatStarted(true);
-                    setMode('askAnything');
-                    
-                    // Load existing chat from backend if available
-                    if (documentId) {
-                      try {
-                        const chatRes = await fetch(`http://localhost:3001/chats/${documentId}`);
-                        if (chatRes.ok) {
-                          const chatData = await chatRes.json();
-                          console.log('Loading existing chat for Ask Me Anything:', chatData);
-                          
-                          if (chatData.messages && chatData.messages.length > 0) {
-                            // Load existing chat messages
-                            setMessages(chatData.messages);
+                  className={`px-4 py-2 rounded bg-blue-600 text-white transition ${(getCurrentDocumentState()?.summaryStreaming || summaryStreaming) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-blue-700'}`}
+                                      onClick={async () => {
+                      if (getCurrentDocumentState()?.summaryStreaming || summaryStreaming) return;
+                    console.log('Updating phase to chat_started for', documentId, aiSummary);
+                    try {
+                      await updateDocumentPhase(documentId, 'chat_started', aiSummary);
+                      console.log('Phase update complete');
+                      // Immediately fetch the chat and update frontend state
+                      if (documentId) {
+                        try {
+                          const chatRes = await fetch(`http://localhost:3001/chats/${documentId}`);
+                          if (chatRes.ok) {
+                            const chatData = await chatRes.json();
+                            let messagesToSet;
+                            if (chatData.messages && chatData.messages.length > 0) {
+                              messagesToSet = chatData.messages;
+                            } else {
+                              messagesToSet = [
+                                { sender: 'ai', text: aiSummary || summaryText },
+                                { sender: 'ai', text: 'Ask me any question you have.' }
+                              ];
+                            }
+                            setMessages(messagesToSet);
+                            console.log('Setting chat messages:', messagesToSet);
                             setChatId(chatData._id);
+                            updateCurrentDocumentState({ messages: messagesToSet });
+                            // NOW move to chat phase
+                            setChatStarted(true);
+                            setMode('askAnything');
+                            updateCurrentDocumentState({
+                              chatStarted: true,
+                              mode: 'askAnything'
+                            });
                           } else {
-                            // No existing messages, start fresh with welcome
-                            setMessages([
-                              { sender: 'ai', text: aiSummary || summaryText },
-                              { sender: 'ai', text: 'Ask me any question you have.' }
-                            ]);
+                            // No chat exists, create one
+                            const createRes = await fetch('http://localhost:3001/chats', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({ documentId: documentId, mode: 'askAnything' }),
+                            });
+                            let messagesToSet;
+                            if (createRes.ok) {
+                              const newChat = await createRes.json();
+                              setChatId(newChat._id);
+                              messagesToSet = [
+                                { sender: 'ai', text: aiSummary || summaryText },
+                                { sender: 'ai', text: 'Ask me any question you have.' }
+                              ];
+                            } else {
+                              messagesToSet = [
+                                { sender: 'ai', text: aiSummary || summaryText },
+                                { sender: 'ai', text: 'Ask me any question you have.' }
+                              ];
+                            }
+                            setMessages(messagesToSet);
+                            console.log('Setting chat messages (fallback):', messagesToSet);
+                            updateCurrentDocumentState({ messages: messagesToSet });
+                            // NOW move to chat phase
+                            setChatStarted(true);
+                            setMode('askAnything');
+                            updateCurrentDocumentState({
+                              chatStarted: true,
+                              mode: 'askAnything'
+                            });
                           }
-                        } else {
-                          // No chat exists, create one
-                          console.log('Creating new chat for document:', documentId);
-                          const createRes = await fetch('http://localhost:3001/chats', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ documentId: documentId, mode: 'askAnything' }),
+                        } catch (err) {
+                          // Fallback to default messages
+                          const welcomeMessages = [
+                            { sender: 'ai', text: aiSummary || summaryText },
+                            { sender: 'ai', text: 'Ask me any question you have.' }
+                          ];
+                          setMessages(welcomeMessages);
+                          console.log('Setting chat messages (fallback):', welcomeMessages);
+                          updateCurrentDocumentState({ messages: welcomeMessages });
+                          // NOW move to chat phase
+                          setChatStarted(true);
+                          setMode('askAnything');
+                          updateCurrentDocumentState({
+                            chatStarted: true,
+                            mode: 'askAnything'
                           });
-                          
-                          console.log('Chat creation response status:', createRes.status);
-                          
-                          if (createRes.ok) {
-                            const newChat = await createRes.json();
-                            console.log('Successfully created new chat:', newChat);
-                            setChatId(newChat._id);
-                            setMessages([
-                              { sender: 'ai', text: aiSummary || summaryText },
-                              { sender: 'ai', text: 'Ask me any question you have.' }
-                            ]);
-                          } else {
-                            console.error('Failed to create chat. Status:', createRes.status);
-                            const errorData = await createRes.json().catch(() => ({ error: 'Unknown error' }));
-                            console.error('Chat creation error:', errorData);
-                            // Fallback to default messages without chat persistence
-                            setMessages([
-                              { sender: 'ai', text: aiSummary || summaryText },
-                              { sender: 'ai', text: 'Ask me any question you have.' }
-                            ]);
-                          }
                         }
-                      } catch (err) {
-                        console.error('Error loading chat for Ask Me Anything:', err);
-                        // Fallback to default messages
-                        setMessages([
-                          { sender: 'ai', text: aiSummary || summaryText },
-                          { sender: 'ai', text: 'Ask me any question you have.' }
-                        ]);
                       }
-                    } else {
-                      // No document selected, just start with welcome
-                      setMessages([
-                        { sender: 'ai', text: aiSummary || summaryText },
-                        { sender: 'ai', text: 'Ask me any question you have.' }
-                      ]);
+                    } catch (err) {
+                      console.error('Error updating phase to chat_started:', err);
                     }
                   }}
                   disabled={summaryLoading}
@@ -764,12 +955,18 @@ function App() {
                   Ask me anything
                 </button>
                 <button
-                  className={`px-4 py-2 rounded bg-purple-600 text-white transition ${summaryLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700'}`}
-                  onClick={() => {
-                    if (summaryLoading) return;
+                  className={`px-4 py-2 rounded bg-purple-600 text-white transition ${(getCurrentDocumentState()?.summaryStreaming || summaryStreaming) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-purple-700'}`}
+                                      onClick={async () => {
+                      if (getCurrentDocumentState()?.summaryStreaming || summaryStreaming) return;
                     setMode('challenge');
                     setShowChallenge(true);
+                    updateCurrentDocumentState({
+                      mode: 'challenge',
+                      showChallenge: true
+                    });
+                    await updateDocumentPhase(documentId, 'challenge_started', aiSummary);
                     generateChallengeQuestions();
+                    // Optionally, fetch chat if you want challenge mode to have chat context
                   }}
                   disabled={summaryLoading}
                 >
@@ -781,32 +978,82 @@ function App() {
         )}
 
         {/* Show chat interface when chat is started */}
-        {chatStarted && (
+        {(getCurrentDocumentState()?.chatStarted || chatStarted) && (
           <div className="w-full max-w-3xl mt-8">
             {/* Summary at the top of chat */}
-            {aiSummary && (
+            {(getCurrentDocumentState()?.aiSummary || aiSummary) && (
               <div className="p-4 bg-[#444654] rounded-lg text-[#ececf1] text-start mb-6">
                 <h3 className="font-bold mb-2">Document Summary:</h3>
-                {aiSummary}
+                {getCurrentDocumentState()?.aiSummary || aiSummary}
               </div>
             )}
-            
-            {/* Back to Options button for Ask Me Anything mode */}
-            {mode === 'askAnything' && (
-              <div className="flex justify-center mb-6">
+            {/* Chat area: message history (scrollable) */}
+            <div className="w-full max-w-3xl flex flex-col mt-8 mb-32">
+              <div className="px-2 bg-[#343541] rounded-lg shadow-inner border-none">
+                {messages.map((msg, idx) => (
+                  <div
+                    key={idx}
+                    className={`my-2 flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`px-5 py-3 rounded-2xl max-w-[90%] text-base shadow transition-all duration-200 ${
+                        msg.sender === 'user'
+                          ? 'bg-[#10a37f] text-white text-center rounded-br-md'
+                          : 'bg-[#444654] text-[#ececf1] text-left rounded-bl-md'
+                      }`}
+                      style={{
+                        borderBottomRightRadius: msg.sender === 'user' ? '0.5rem' : '1rem',
+                        borderBottomLeftRadius: msg.sender === 'ai' ? '0.5rem' : '1rem',
+                      }}
+                    >
+                      {msg.text}
+                    </div>
+                  </div>
+                ))}
+                <div ref={chatEndRef} />
+              </div>
+            </div>
+            {/* Message input and Back to Options at the bottom */}
+            <form
+              className="w-full max-w-3xl flex items-center gap-2 p-4 bg-[#202123] shadow-lg rounded-2xl fixed bottom-4 left-1/2 transform -translate-x-1/2"
+              style={{ zIndex: 10, marginLeft: sidebarOpen ? '144px' : '0px' }}
+              onSubmit={e => { e.preventDefault(); handleSend(); }}
+            >
+              <input
+                type="text"
+                className="flex-1 py-3 px-4 rounded-2xl bg-[#343541] text-[#ececf1] border border-[#444654] focus:outline-none focus:ring-2 focus:ring-[#10a37f] transition"
+                placeholder="Type your message..."
+                value={message}
+                onChange={e => setMessage(e.target.value)}
+              />
+              <button
+                type="submit"
+                className="py-3 px-7 rounded-2xl bg-[#10a37f] text-white font-semibold hover:bg-[#13c296] hover:text-white transition shadow"
+              >
+                Send
+              </button>
+              {/* Back to Options button beside input, always show in chat phase for askAnything mode */}
+              {(chatStarted && (mode === 'askAnything' || getCurrentDocumentState()?.mode === 'askAnything')) && (
                 <button
-                  className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
-                  onClick={() => {
+                  type="button"
+                  className="ml-2 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition font-semibold"
+                  onClick={async () => {
                     setChatStarted(false);
                     setMode('');
                     setMessages([]);
                     setChatId(null);
+                    updateCurrentDocumentState({
+                      chatStarted: false,
+                      mode: '',
+                      messages: []
+                    });
+                    await updateDocumentPhase(documentId, 'summary_generated', aiSummary);
                   }}
                 >
                   Back to Options
                 </button>
-              </div>
-            )}
+              )}
+            </form>
           </div>
         )}
 
@@ -840,6 +1087,11 @@ function App() {
                           setAiSummary("");
                           setSummaryGenerated(true);
                           setSummaryStreaming(true);
+                          updateCurrentDocumentState({
+                            aiSummary: "",
+                            summaryGenerated: true,
+                            summaryStreaming: true
+                          });
                           
                           try {
                             // Get the full document text from database to ensure we have complete context
@@ -848,16 +1100,39 @@ function App() {
                             
                             console.log('Generating summary with document text length:', fullDocText.length);
                             
+                            let accumulatedSummary = "";
                             streamModelResponse(
                               summaryPrompt,
-                              chunk => setAiSummary(prev => prev + chunk),
-                              () => setSummaryStreaming(false),
+                              chunk => {
+                                accumulatedSummary += chunk;
+                                setAiSummary(accumulatedSummary);
+                                updateCurrentDocumentState({ aiSummary: accumulatedSummary });
+                              },
+                              async () => {
+                                setSummaryStreaming(false);
+                                updateCurrentDocumentState({ summaryStreaming: false });
+                                // Save the summary to the backend
+                                await updateDocumentPhase(documentId, 'summary_generated', accumulatedSummary);
+                                // Add the summary as the first message in the chat/messages state
+                                const summaryMessage = [{ sender: 'ai', text: accumulatedSummary }];
+                                setMessages(summaryMessage);
+                                updateCurrentDocumentState({ messages: summaryMessage });
+                                // Update the summary in the local documents array
+                                setDocuments(prevDocs => prevDocs.map(doc =>
+                                  doc._id === documentId ? { ...doc, summary: accumulatedSummary, phase: 'summary_generated' } : doc
+                                ));
+                              },
                               [] // No chat history for summary generation
                             );
                           } catch (error) {
                             console.error('Error generating summary:', error);
-                            setAiSummary('Error generating summary. Please try again.');
+                            const errorMessage = 'Error generating summary. Please try again.';
+                            setAiSummary(errorMessage);
                             setSummaryStreaming(false);
+                            updateCurrentDocumentState({ 
+                              aiSummary: errorMessage, 
+                              summaryStreaming: false 
+                            });
                           }
                         }}
                         type="button"
@@ -881,57 +1156,11 @@ function App() {
           </div>
         )}
 
-        {/* Chat area and message input */}
-        {preview && chatStarted && (
-          <>
-            {/* Chat area: message history (scrollable) */}
-            <div className="w-full max-w-3xl flex flex-col flex-1 mt-8">
-              <div className="flex-1 overflow-y-auto scrollbar-none px-2 bg-[#343541] rounded-lg shadow-inner border-none mb-4" style={{ maxHeight: 'calc(100vh - 320px)', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                {messages.map((msg, idx) => (
-                  <div
-                    key={idx}
-                    className={`my-2 flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                  >
-                    <div
-                      className={`px-5 py-3 rounded-2xl max-w-[90%] text-base shadow transition-all duration-200 ${
-                        msg.sender === 'user'
-                          ? 'bg-[#10a37f] text-white text-center rounded-br-md'
-                          : 'bg-[#444654] text-[#ececf1] text-left rounded-bl-md'
-                      }`}
-                      style={{
-                        borderBottomRightRadius: msg.sender === 'user' ? '0.5rem' : '1rem',
-                        borderBottomLeftRadius: msg.sender === 'ai' ? '0.5rem' : '1rem',
-                      }}
-                    >
-                      {msg.text}
-                    </div>
-                  </div>
-                ))}
-                <div ref={chatEndRef} />
-              </div>
-            </div>
-            {/* Message input: sticky at the bottom */}
-            <form
-              className="w-full max-w-3xl flex items-center gap-2 p-4 bg-[#202123] fixed bottom-10 shadow-lg rounded-2xl"
-              style={{ zIndex: 10 }}
-              onSubmit={e => { e.preventDefault(); handleSend(); }}
-            >
-              <input
-                type="text"
-                className="flex-1 py-3 px-4 rounded-2xl bg-[#343541] text-[#ececf1] border border-[#444654] focus:outline-none focus:ring-2 focus:ring-[#10a37f] transition"
-                placeholder="Type your message..."
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-              />
-              <button
-                type="submit"
-                className="py-3 px-7 rounded-2xl bg-[#10a37f] text-white font-semibold hover:bg-[#13c296] hover:text-white transition shadow"
-              >
-                Send
-              </button>
-            </form>
-          </>
-        )}
+        {(!documentId && !preview) && (
+    <div className="w-full max-w-3xl mt-16 text-center text-[#ececf1] text-xl">
+      Please upload or select a document to get started.
+    </div>
+  )}
       </main>
       {/* Sidebar show button when hidden */}
       {!sidebarOpen && (
