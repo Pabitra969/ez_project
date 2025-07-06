@@ -54,8 +54,56 @@ npm run dev
 ```
 - The frontend will run on [http://localhost:5173](http://localhost:5173).
 
-### 7. **(Optional) Model API**
-- If your app uses a local model API (like Ollama or similar), make sure it’s running on the expected port (e.g., `http://localhost:11434`).
+### 7. **Model Setup (Ollama + Hugging Face)**
+
+Follow these steps to set up your custom AI model for use with this project:
+
+1. **Download the Model from Hugging Face**
+   ```bash
+   git clone https://huggingface.co/Pabitra09/summarisation_ez_model
+   ```
+   - The model file `unsloth.Q4_K_M.gguf` will be in the `summarisation_ez_model` folder.
+
+2. **Copy the Path of the Model File**
+   - Locate `unsloth.Q4_K_M.gguf` inside the `summarisation_ez_model` folder.
+   - Copy its full path for use in the next step.
+
+3. **Edit the Modelfile**
+   - Open the `Modelfile` in VSCode or any text editor.
+   - Find the line:
+     ```
+     FROM /Pabitra09/summarisation_ez_model/unsloth.Q4_K_M.gguf
+     ```
+   - Replace it with:
+     ```
+     FROM <your-full-path-to-the-gguf-model-file>/unsloth.Q4_K_M.gguf
+     ```
+     (Use the actual path to your downloaded `.gguf` file.)
+
+4. **Download and Install Ollama**
+   - Download Ollama for your OS: [https://ollama.com/download](https://ollama.com/download)
+   - Install and open the Ollama app, then leave it running in the background.
+
+5. **Open Terminal or Command Prompt**
+
+6. **Create the Model in Ollama**
+   ```bash
+   ollama create my_model -f Modelfile
+   ```
+
+7. **Run the Model**
+   ```bash
+   ollama run my_model
+   ```
+
+8. **Verify Setup**
+   - If you see a conversation prompt in your terminal, your model setup is ready!
+
+> **Note:** Model setup is a one-time process. Next time, you only need to start the Ollama app in the background before running the project.
+
+**References:**
+- [Your Hugging Face Model](https://huggingface.co/Pabitra09/summarisation_ez_model)
+- [Ollama Download](https://ollama.com/download)
 
 ---
 
