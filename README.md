@@ -44,7 +44,8 @@ npm install
 ```bash
 # From the project root
 node server.js
-```- The backend will run on [http://localhost:3001](http://localhost:3001).
+```
+- The backend will run on [http://localhost:3001](http://localhost:3001).
 
 ### 6. **Start the Frontend**
 ```bash
