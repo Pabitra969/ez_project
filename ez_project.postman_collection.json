@@ -1,0 +1,320 @@
+{
+	"info": {
+		"_postman_id": "ad120e8e-b87b-4442-b431-c9d2e64a067c",
+		"name": "ez_project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46525851",
+		"_collection_link": "https://pabitrakumarghorai-7098136.postman.co/workspace/Pabitra-Kumar-Ghorai's-Workspac~666ce940-e5d3-4a58-8b45-0e09e009f5f9/collection/46525851-ad120e8e-b87b-4442-b431-c9d2e64a067c?action=share&source=collection_link&creator=46525851"
+	},
+	"item": [
+		{
+			"name": "Request for summarisation",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "\tapplication/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Context: erates within the environment of Minecraft, a 3-dimensional world\\nwhere the terrain and all structures are made out of \\u2019blocks\\u2019, these blocks may\\nbe broken provided the player possesses the correct tools. On collection, these\\nblocks may also be placed again, allowing the creation of structures and build-\\nings. Within Minecraft, one of the two primary objectives of a player/agent is\\nto acquire resources to create better tools, which in turn, allows the collection\\nof more resources and even better tools. This process is the focus of the orig-\\ninal Voyager paper[13]. Another main focus is the creative process of creating\\nstructures with the blocks the player gains while exploring - this often includes\\npractical structures such as a house or a nether portal (which allows further\\nexploration in a different world), and purely creative pursuits such as decorative\\nsculptures. As shown in Fig. 3, the agent has been provided with multimodal\\ninputs, enabling the pursuit of these building-focused \\n\\nQuestion: What are the two primary objectives of a player/agent in Minecraft?\" }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:11434/api/chat",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11434",
+					"path": [
+						"api",
+						"chat"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:11434/api/chat",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "\tapplication/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Context: erates within the environment of Minecraft, a 3-dimensional world\\nwhere the terrain and all structures are made out of \\u2019blocks\\u2019, these blocks may\\nbe broken provided the player possesses the correct tools. On collection, these\\nblocks may also be placed again, allowing the creation of structures and build-\\nings. Within Minecraft, one of the two primary objectives of a player/agent is\\nto acquire resources to create better tools, which in turn, allows the collection\\nof more resources and even better tools. This process is the focus of the orig-\\ninal Voyager paper[13]. Another main focus is the creative process of creating\\nstructures with the blocks the player gains while exploring - this often includes\\npractical structures such as a house or a nether portal (which allows further\\nexploration in a different world), and purely creative pursuits such as decorative\\nsculptures. As shown in Fig. 3, the agent has been provided with multimodal\\ninputs, enabling the pursuit of these building-focused \\n\\nQuestion: What are the two primary objectives of a player/agent in Minecraft?\" }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11434/api/chat",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"chat"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/x-ndjson"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 07 Jul 2025 18:35:55 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:55.444077Z\",\"message\":{\"role\":\"assistant\",\"content\":\"ac\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:55.553047Z\",\"message\":{\"role\":\"assistant\",\"content\":\"quire\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:55.659696Z\",\"message\":{\"role\":\"assistant\",\"content\":\" resources\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:55.781477Z\",\"message\":{\"role\":\"assistant\",\"content\":\" to\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:55.899396Z\",\"message\":{\"role\":\"assistant\",\"content\":\" create\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.021158Z\",\"message\":{\"role\":\"assistant\",\"content\":\" better\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.134523Z\",\"message\":{\"role\":\"assistant\",\"content\":\" tools\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.244761Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.357961Z\",\"message\":{\"role\":\"assistant\",\"content\":\" which\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.467218Z\",\"message\":{\"role\":\"assistant\",\"content\":\" in\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.580091Z\",\"message\":{\"role\":\"assistant\",\"content\":\" turn\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.687553Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.803072Z\",\"message\":{\"role\":\"assistant\",\"content\":\" allows\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:56.913588Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.027008Z\",\"message\":{\"role\":\"assistant\",\"content\":\" collection\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.143314Z\",\"message\":{\"role\":\"assistant\",\"content\":\" of\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.256135Z\",\"message\":{\"role\":\"assistant\",\"content\":\" more\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.367597Z\",\"message\":{\"role\":\"assistant\",\"content\":\" resources\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.478Z\",\"message\":{\"role\":\"assistant\",\"content\":\" and\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.612383Z\",\"message\":{\"role\":\"assistant\",\"content\":\" even\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.735502Z\",\"message\":{\"role\":\"assistant\",\"content\":\" better\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.847407Z\",\"message\":{\"role\":\"assistant\",\"content\":\" tools\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:57.954564Z\",\"message\":{\"role\":\"assistant\",\"content\":\".\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.061967Z\",\"message\":{\"role\":\"assistant\",\"content\":\" This\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.166155Z\",\"message\":{\"role\":\"assistant\",\"content\":\" process\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.271182Z\",\"message\":{\"role\":\"assistant\",\"content\":\" is\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.378917Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.485607Z\",\"message\":{\"role\":\"assistant\",\"content\":\" focus\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.596801Z\",\"message\":{\"role\":\"assistant\",\"content\":\" of\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.70641Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.81439Z\",\"message\":{\"role\":\"assistant\",\"content\":\" orig\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:58.926186Z\",\"message\":{\"role\":\"assistant\",\"content\":\"-\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.040484Z\",\"message\":{\"role\":\"assistant\",\"content\":\"inal\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.157159Z\",\"message\":{\"role\":\"assistant\",\"content\":\" Voyager\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.266982Z\",\"message\":{\"role\":\"assistant\",\"content\":\" paper\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.381925Z\",\"message\":{\"role\":\"assistant\",\"content\":\"[\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.490758Z\",\"message\":{\"role\":\"assistant\",\"content\":\"13\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.609857Z\",\"message\":{\"role\":\"assistant\",\"content\":\"].\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.725534Z\",\"message\":{\"role\":\"assistant\",\"content\":\" Another\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.83562Z\",\"message\":{\"role\":\"assistant\",\"content\":\" main\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:35:59.944072Z\",\"message\":{\"role\":\"assistant\",\"content\":\" focus\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.055505Z\",\"message\":{\"role\":\"assistant\",\"content\":\" is\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.164229Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.272635Z\",\"message\":{\"role\":\"assistant\",\"content\":\" creative\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.379273Z\",\"message\":{\"role\":\"assistant\",\"content\":\" process\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.486941Z\",\"message\":{\"role\":\"assistant\",\"content\":\" of\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.601313Z\",\"message\":{\"role\":\"assistant\",\"content\":\" creating\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.709421Z\",\"message\":{\"role\":\"assistant\",\"content\":\" structures\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.819065Z\",\"message\":{\"role\":\"assistant\",\"content\":\" with\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:00.929886Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.040403Z\",\"message\":{\"role\":\"assistant\",\"content\":\" blocks\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.155422Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.273331Z\",\"message\":{\"role\":\"assistant\",\"content\":\" player\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.401451Z\",\"message\":{\"role\":\"assistant\",\"content\":\" gains\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.522804Z\",\"message\":{\"role\":\"assistant\",\"content\":\" while\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.651487Z\",\"message\":{\"role\":\"assistant\",\"content\":\" exploring\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:01.923907Z\",\"message\":{\"role\":\"assistant\",\"content\":\" -\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.048085Z\",\"message\":{\"role\":\"assistant\",\"content\":\" this\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.170343Z\",\"message\":{\"role\":\"assistant\",\"content\":\" often\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.289225Z\",\"message\":{\"role\":\"assistant\",\"content\":\" includes\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.404911Z\",\"message\":{\"role\":\"assistant\",\"content\":\" practical\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.518156Z\",\"message\":{\"role\":\"assistant\",\"content\":\" structures\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.636702Z\",\"message\":{\"role\":\"assistant\",\"content\":\" such\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.755258Z\",\"message\":{\"role\":\"assistant\",\"content\":\" as\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.867242Z\",\"message\":{\"role\":\"assistant\",\"content\":\" a\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:02.979343Z\",\"message\":{\"role\":\"assistant\",\"content\":\" house\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.092483Z\",\"message\":{\"role\":\"assistant\",\"content\":\" or\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.209263Z\",\"message\":{\"role\":\"assistant\",\"content\":\" a\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.323656Z\",\"message\":{\"role\":\"assistant\",\"content\":\" n\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.439633Z\",\"message\":{\"role\":\"assistant\",\"content\":\"ether\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.549606Z\",\"message\":{\"role\":\"assistant\",\"content\":\" portal\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.663088Z\",\"message\":{\"role\":\"assistant\",\"content\":\" (\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.771473Z\",\"message\":{\"role\":\"assistant\",\"content\":\"which\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:03.882126Z\",\"message\":{\"role\":\"assistant\",\"content\":\" allows\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.064665Z\",\"message\":{\"role\":\"assistant\",\"content\":\" further\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.204992Z\",\"message\":{\"role\":\"assistant\",\"content\":\" exploration\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.31339Z\",\"message\":{\"role\":\"assistant\",\"content\":\" in\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.421273Z\",\"message\":{\"role\":\"assistant\",\"content\":\" a\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.531686Z\",\"message\":{\"role\":\"assistant\",\"content\":\" different\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.645541Z\",\"message\":{\"role\":\"assistant\",\"content\":\" world\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.881981Z\",\"message\":{\"role\":\"assistant\",\"content\":\"),\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:04.996354Z\",\"message\":{\"role\":\"assistant\",\"content\":\" and\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.109336Z\",\"message\":{\"role\":\"assistant\",\"content\":\" purely\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.221145Z\",\"message\":{\"role\":\"assistant\",\"content\":\" creative\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.336402Z\",\"message\":{\"role\":\"assistant\",\"content\":\" pursuits\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.451157Z\",\"message\":{\"role\":\"assistant\",\"content\":\" such\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.56978Z\",\"message\":{\"role\":\"assistant\",\"content\":\" as\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.687032Z\",\"message\":{\"role\":\"assistant\",\"content\":\" decorative\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.798726Z\",\"message\":{\"role\":\"assistant\",\"content\":\" sculptures\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:05.914292Z\",\"message\":{\"role\":\"assistant\",\"content\":\".\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.028965Z\",\"message\":{\"role\":\"assistant\",\"content\":\" As\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.138208Z\",\"message\":{\"role\":\"assistant\",\"content\":\" shown\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.246107Z\",\"message\":{\"role\":\"assistant\",\"content\":\" in\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.354909Z\",\"message\":{\"role\":\"assistant\",\"content\":\" Fig\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.460289Z\",\"message\":{\"role\":\"assistant\",\"content\":\".\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.572078Z\",\"message\":{\"role\":\"assistant\",\"content\":\" \"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.68187Z\",\"message\":{\"role\":\"assistant\",\"content\":\"3\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.788543Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:06.89651Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.00401Z\",\"message\":{\"role\":\"assistant\",\"content\":\" agent\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.111666Z\",\"message\":{\"role\":\"assistant\",\"content\":\" has\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.222279Z\",\"message\":{\"role\":\"assistant\",\"content\":\" been\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.328129Z\",\"message\":{\"role\":\"assistant\",\"content\":\" provided\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.443566Z\",\"message\":{\"role\":\"assistant\",\"content\":\" with\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.56388Z\",\"message\":{\"role\":\"assistant\",\"content\":\" multim\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.67716Z\",\"message\":{\"role\":\"assistant\",\"content\":\"odal\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.786294Z\",\"message\":{\"role\":\"assistant\",\"content\":\" inputs\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:07.894935Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.003299Z\",\"message\":{\"role\":\"assistant\",\"content\":\" enabling\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.110134Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.218502Z\",\"message\":{\"role\":\"assistant\",\"content\":\" pursuit\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.325687Z\",\"message\":{\"role\":\"assistant\",\"content\":\" of\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.438664Z\",\"message\":{\"role\":\"assistant\",\"content\":\" these\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.549761Z\",\"message\":{\"role\":\"assistant\",\"content\":\" building\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.66052Z\",\"message\":{\"role\":\"assistant\",\"content\":\"-focused\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:36:08.768113Z\",\"message\":{\"role\":\"assistant\",\"content\":\"\"},\"done_reason\":\"stop\",\"done\":true,\"total_duration\":13850838771,\"load_duration\":101464967,\"prompt_eval_count\":234,\"prompt_eval_duration\":420843848,\"eval_count\":116,\"eval_duration\":13326186734}\n"
+				}
+			]
+		},
+		{
+			"name": "Question's Answers w.r.t. the context",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Context: nuclear domains, providing a direct link to the cell survival probability as predicted by GSM2 .\\nThe model was validated using experimental data from HUVEC cells irradiated with 220 kV X-rays\\nand H460 cells exposed to protons over a wide linear energy transfer (LET) range, from approximately\\n4 keV =\\u2014m to over 20 keV =\\u2014m. Results show excellent agreement between simulations and exper-\\nimental survival probabilities, making this one of the first consistent multi-scale models to bridge\\nnanodosimetric and microdosimetric representations of radiation with biological outcomes such as\\ncell survival.\\nBy incorporating the inherent stochastic nature of radiation-matter interactions, this framework\\neffectively connects the physical properties of the radiation field to the biological response at the\\ncellular level. Its accuracy across various radiation types and energies supports its potential for use\\nin biologically optimized radiotherapy.\\nKeywords: Radiotherapy, Microdosimetry, Nanodosimetry, DN\\n\\nQuestion: What type of radiation is the model based on?\" }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11434",
+					"path": [
+						"api",
+						"chat"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "\tapplication/json"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Context: nuclear domains, providing a direct link to the cell survival probability as predicted by GSM2 .\\nThe model was validated using experimental data from HUVEC cells irradiated with 220 kV X-rays\\nand H460 cells exposed to protons over a wide linear energy transfer (LET) range, from approximately\\n4 keV =\\u2014m to over 20 keV =\\u2014m. Results show excellent agreement between simulations and exper-\\nimental survival probabilities, making this one of the first consistent multi-scale models to bridge\\nnanodosimetric and microdosimetric representations of radiation with biological outcomes such as\\ncell survival.\\nBy incorporating the inherent stochastic nature of radiation-matter interactions, this framework\\neffectively connects the physical properties of the radiation field to the biological response at the\\ncellular level. Its accuracy across various radiation types and energies supports its potential for use\\nin biologically optimized radiotherapy.\\nKeywords: Radiotherapy, Microdosimetry, Nanodosimetry, DN\\n\\nQuestion: What type of radiation is the model based on?\" }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"chat"
+							],
+							"query": [
+								{
+									"key": "Content-Type",
+									"value": "\tapplication/json"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/x-ndjson"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 07 Jul 2025 18:38:54 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:38:54.02443Z\",\"message\":{\"role\":\"assistant\",\"content\":\"X\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:38:54.151276Z\",\"message\":{\"role\":\"assistant\",\"content\":\"-rays\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:38:54.257439Z\",\"message\":{\"role\":\"assistant\",\"content\":\"\"},\"done_reason\":\"stop\",\"done\":true,\"total_duration\":10636992777,\"load_duration\":116680155,\"prompt_eval_count\":225,\"prompt_eval_duration\":10280972100,\"eval_count\":3,\"eval_duration\":236662074}\n"
+				}
+			]
+		},
+		{
+			"name": "Request for answer evaluation",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Context: ly have better performance, they are\\nmost e\\ufb00ective at later stages of HCC, typically when tumor size is larger than 2 cm\\nin diameter. Furthermore, the costs of these modalities are high and are used when\\nan evident signal appears [7]. Additionally, the AFP levels may not be elevated in\\nearly stage HCC, and combining AFP testing with imaging techniques may still pro-\\nvide false negative result [14]. Liver biopsy may also lead to false negative results,\\nparticularly if samples are obtained from the wrong location [28, 11, 34]. However,\\nthe molecular analysis of biopsy samples, particularly through transcriptomic ap-\\nproaches, has shown potential to overcome these limitations and improving the HCC\\ndetection.\\nTranscriptomics provides a thorough molecular analysis of biological systems, en-\\nabling the prediction of disease outcomes by analyzing changes associated with dis-\\nease progression [33]. High-throughput technologies, such as microarrays, facilitate\\nthis process by simultaneous asses\\n\\nQuestion: What are the advantages and disadvantages of AFP testing in early stage HCC?\\nCorrect Answer: combining AFP testing with imaging techniques may still pro- vide false negative result [14]. Liver biopsy may also lead to false negative results, particularly if samples are obtained from the wrong location [28, 11, 34] However, the molecular analysis of biopsy samples, particularly through transcriptomic ap- proaches, has shown potential to overcome these limitations and improving the HCC detection\\nWrong Answer: AFP levels may not be elevated in early stage HCC, and combining AFP testing with imaging techniques may still pro- vide false negative result [14]. Liver biopsy may also lead to false negative results, particularly if samples are obtained from the wrong location [28, 11, 34]. However, the mo\" }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11434",
+					"path": [
+						"api",
+						"chat"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "\tapplication/json"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \"Context: ly have better performance, they are\\nmost e\\ufb00ective at later stages of HCC, typically when tumor size is larger than 2 cm\\nin diameter. Furthermore, the costs of these modalities are high and are used when\\nan evident signal appears [7]. Additionally, the AFP levels may not be elevated in\\nearly stage HCC, and combining AFP testing with imaging techniques may still pro-\\nvide false negative result [14]. Liver biopsy may also lead to false negative results,\\nparticularly if samples are obtained from the wrong location [28, 11, 34]. However,\\nthe molecular analysis of biopsy samples, particularly through transcriptomic ap-\\nproaches, has shown potential to overcome these limitations and improving the HCC\\ndetection.\\nTranscriptomics provides a thorough molecular analysis of biological systems, en-\\nabling the prediction of disease outcomes by analyzing changes associated with dis-\\nease progression [33]. High-throughput technologies, such as microarrays, facilitate\\nthis process by simultaneous asses\\n\\nQuestion: What are the advantages and disadvantages of AFP testing in early stage HCC?\\nCorrect Answer: combining AFP testing with imaging techniques may still pro- vide false negative result [14]. Liver biopsy may also lead to false negative results, particularly if samples are obtained from the wrong location [28, 11, 34] However, the molecular analysis of biopsy samples, particularly through transcriptomic ap- proaches, has shown potential to overcome these limitations and improving the HCC detection\\nWrong Answer: AFP levels may not be elevated in early stage HCC, and combining AFP testing with imaging techniques may still pro- vide false negative result [14]. Liver biopsy may also lead to false negative results, particularly if samples are obtained from the wrong location [28, 11, 34]. However, the mo\" }\n  ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "11434",
+							"path": [
+								"api",
+								"chat"
+							],
+							"query": [
+								{
+									"key": "Content-Type",
+									"value": "\tapplication/json"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/x-ndjson"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 07 Jul 2025 18:47:33 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.111955Z\",\"message\":{\"role\":\"assistant\",\"content\":\"4\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.21743Z\",\"message\":{\"role\":\"assistant\",\"content\":\"\\n\\n\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.324523Z\",\"message\":{\"role\":\"assistant\",\"content\":\"Correct\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.445483Z\",\"message\":{\"role\":\"assistant\",\"content\":\" Answer\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.554835Z\",\"message\":{\"role\":\"assistant\",\"content\":\":\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.664313Z\",\"message\":{\"role\":\"assistant\",\"content\":\" combining\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.769362Z\",\"message\":{\"role\":\"assistant\",\"content\":\" AFP\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.882661Z\",\"message\":{\"role\":\"assistant\",\"content\":\" testing\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:33.996039Z\",\"message\":{\"role\":\"assistant\",\"content\":\" with\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.107878Z\",\"message\":{\"role\":\"assistant\",\"content\":\" imaging\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.21824Z\",\"message\":{\"role\":\"assistant\",\"content\":\" techniques\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.326917Z\",\"message\":{\"role\":\"assistant\",\"content\":\" may\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.439447Z\",\"message\":{\"role\":\"assistant\",\"content\":\" still\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.551982Z\",\"message\":{\"role\":\"assistant\",\"content\":\" pro\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.661024Z\",\"message\":{\"role\":\"assistant\",\"content\":\"-\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.769812Z\",\"message\":{\"role\":\"assistant\",\"content\":\" vide\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.879721Z\",\"message\":{\"role\":\"assistant\",\"content\":\" false\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:34.988564Z\",\"message\":{\"role\":\"assistant\",\"content\":\" negative\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.096169Z\",\"message\":{\"role\":\"assistant\",\"content\":\" result\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.205735Z\",\"message\":{\"role\":\"assistant\",\"content\":\" [\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.313364Z\",\"message\":{\"role\":\"assistant\",\"content\":\"14\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.424453Z\",\"message\":{\"role\":\"assistant\",\"content\":\"].\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.532483Z\",\"message\":{\"role\":\"assistant\",\"content\":\" Liver\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.642002Z\",\"message\":{\"role\":\"assistant\",\"content\":\" biopsy\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.749575Z\",\"message\":{\"role\":\"assistant\",\"content\":\" may\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.854382Z\",\"message\":{\"role\":\"assistant\",\"content\":\" also\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:35.961165Z\",\"message\":{\"role\":\"assistant\",\"content\":\" lead\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.068983Z\",\"message\":{\"role\":\"assistant\",\"content\":\" to\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.177179Z\",\"message\":{\"role\":\"assistant\",\"content\":\" false\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.284896Z\",\"message\":{\"role\":\"assistant\",\"content\":\" negative\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.394973Z\",\"message\":{\"role\":\"assistant\",\"content\":\" results\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.503253Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.611637Z\",\"message\":{\"role\":\"assistant\",\"content\":\" particularly\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.718455Z\",\"message\":{\"role\":\"assistant\",\"content\":\" if\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.822693Z\",\"message\":{\"role\":\"assistant\",\"content\":\" samples\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:36.932231Z\",\"message\":{\"role\":\"assistant\",\"content\":\" are\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.045545Z\",\"message\":{\"role\":\"assistant\",\"content\":\" obtained\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.162275Z\",\"message\":{\"role\":\"assistant\",\"content\":\" from\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.273555Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.384333Z\",\"message\":{\"role\":\"assistant\",\"content\":\" wrong\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.492294Z\",\"message\":{\"role\":\"assistant\",\"content\":\" location\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.606063Z\",\"message\":{\"role\":\"assistant\",\"content\":\" [\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.714232Z\",\"message\":{\"role\":\"assistant\",\"content\":\"28\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.822009Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:37.93107Z\",\"message\":{\"role\":\"assistant\",\"content\":\" \"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.046592Z\",\"message\":{\"role\":\"assistant\",\"content\":\"11\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.175906Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.28882Z\",\"message\":{\"role\":\"assistant\",\"content\":\" \"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.39856Z\",\"message\":{\"role\":\"assistant\",\"content\":\"34\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.508864Z\",\"message\":{\"role\":\"assistant\",\"content\":\"]\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.616384Z\",\"message\":{\"role\":\"assistant\",\"content\":\" However\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.722509Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.827972Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:38.937617Z\",\"message\":{\"role\":\"assistant\",\"content\":\" molecular\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.044848Z\",\"message\":{\"role\":\"assistant\",\"content\":\" analysis\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.15239Z\",\"message\":{\"role\":\"assistant\",\"content\":\" of\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.259432Z\",\"message\":{\"role\":\"assistant\",\"content\":\" biopsy\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.375084Z\",\"message\":{\"role\":\"assistant\",\"content\":\" samples\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.484167Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.593702Z\",\"message\":{\"role\":\"assistant\",\"content\":\" particularly\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.708446Z\",\"message\":{\"role\":\"assistant\",\"content\":\" through\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.817747Z\",\"message\":{\"role\":\"assistant\",\"content\":\" transcript\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:39.927592Z\",\"message\":{\"role\":\"assistant\",\"content\":\"omic\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.037094Z\",\"message\":{\"role\":\"assistant\",\"content\":\" ap\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.146048Z\",\"message\":{\"role\":\"assistant\",\"content\":\"-\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.260809Z\",\"message\":{\"role\":\"assistant\",\"content\":\" pro\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.377704Z\",\"message\":{\"role\":\"assistant\",\"content\":\"aches\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.49181Z\",\"message\":{\"role\":\"assistant\",\"content\":\",\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.604396Z\",\"message\":{\"role\":\"assistant\",\"content\":\" has\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.717188Z\",\"message\":{\"role\":\"assistant\",\"content\":\" shown\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.82784Z\",\"message\":{\"role\":\"assistant\",\"content\":\" potential\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:40.940726Z\",\"message\":{\"role\":\"assistant\",\"content\":\" to\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.052331Z\",\"message\":{\"role\":\"assistant\",\"content\":\" overcome\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.164556Z\",\"message\":{\"role\":\"assistant\",\"content\":\" these\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.276831Z\",\"message\":{\"role\":\"assistant\",\"content\":\" limitations\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.393791Z\",\"message\":{\"role\":\"assistant\",\"content\":\" and\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.509099Z\",\"message\":{\"role\":\"assistant\",\"content\":\" improving\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.622257Z\",\"message\":{\"role\":\"assistant\",\"content\":\" the\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.732666Z\",\"message\":{\"role\":\"assistant\",\"content\":\" H\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.839579Z\",\"message\":{\"role\":\"assistant\",\"content\":\"CC\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:41.949694Z\",\"message\":{\"role\":\"assistant\",\"content\":\" detection\"},\"done\":false}\n{\"model\":\"my_model\",\"created_at\":\"2025-07-07T18:47:42.060568Z\",\"message\":{\"role\":\"assistant\",\"content\":\"\"},\"done_reason\":\"stop\",\"done\":true,\"total_duration\":9153517160,\"load_duration\":88938053,\"prompt_eval_count\":378,\"prompt_eval_duration\":111867208,\"eval_count\":82,\"eval_duration\":8950576491}\n"
+				}
+			]
+		},
+		{
+			"name": "Question Genration",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"model\": \"my_model\",\n  \"stream\": true,\n  \"messages\": [\n    { \"role\": \"user\", \"content\": \" tsu Research of America, Inc., Santa Clara, CA, USA,\\njInformation Networking Institute, Carnegie Mellon University, Pittsburgh, Pennsylvania, USA,\\nkCymax Group Technologies, Burnaby, British Columbia, Canada,\\nlMicrosoft, Schiphol, Netherlands,\\nmMathematics and Computational Research Division, Argonne National Laboratory, IL, USA,\\nnDepartment of Computer Science, Faculty of Computers and Artificial Intelligence, South Valley University, Hurghada, Egypt,\\noDepartment of Information Systems University of Maryland, Baltimore County (UMBC), Baltimore, USA,\\npRetired Professor, The University of Melbourne, Melbourne, Victoria, Australia,\\nA R T I C L E I N F O\\nKeywords:\\nQuantum Computing\\nArtificial Intelligence\\nMachine Learning\\nCryptography\\nCyber Security\\nQubits\\nA B S T R A C T\\nThe recent development of quantum computing, which uses entanglement, superposition,\\nand other quantum fundamental concepts, can provide substantial processing advantages over\\ntraditional computing. These quantum feature\\n\\nQuestion: What is the main idea of the text?\\nCorrect Answer: The recent development of quantum computing, which uses entanglement, superposition, and other quantum fundamental concepts, can provide substantial processing advantages over traditional computing. These quantum feature\\nWrong Answer: The recent development of quantum computing, which uses entanglement, superposition, and other quantum fundamental concepts, can provide substantial processing advantages over traditional computing. These quantum feature. Generate 3 diversified Questions from the above context\" }\n  ]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:11434/api/chat?Content-Type=\tapplication/json",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "11434",
+					"path": [
+						"api",
+						"chat"
+					],
+					"query": [
+						{
+							"key": "Content-Type",
+							"value": "\tapplication/json"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
