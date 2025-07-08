@@ -117,7 +117,8 @@ Follow these steps to set up your custom AI model for use with this project:
 **References:**
 - [Your Hugging Face Model](https://huggingface.co/Pabitra09/summarisation_ez_model)
 - [Ollama Download](https://ollama.com/download)
-- [You can find the videos in the assets folder for further assistance](assets/Screen%20Recording%202025-07-08%20at%206.10.57 AM.mov)
+- [You can find the videos in the assets folder for further assistance](assets/tutorial_for_project_setup.mp4)
+- [You can find further assistance to setup the model locally to your machine](assets/tutorail_for_model_setup.mp4)
 
 ---
 
