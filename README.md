@@ -55,6 +55,16 @@ npm run dev
 - The frontend will run on [http://localhost:5173](http://localhost:5173).
 
 ### 7. **Model Setup (Ollama + Hugging Face)**
+- **Note: Install git-lfs to download the full model file from the repo
+```
+# for mac:
+brew install git-lfs
+#for windows:
+choco install git-lfs
+#for Ubuntu/Debian:
+sudo apt update
+sudo apt install git-lfs
+```
 
 Follow these steps to set up your custom AI model for use with this project:
 
