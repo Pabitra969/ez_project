@@ -127,6 +127,8 @@ your-repo-name/
 ├── frontend/           # React frontend (Vite)
 │   ├── package.json
 │   └── ...
+├── postman/           # Postman dump
+│   ├── ez_project.postman_collection.json
 ```
 
 ---
